@@ -1,0 +1,86 @@
+DR_gene_symbol,Type
+amy2a,Digestion
+apoa1b,Digestion
+chia.3,Digestion
+prss3,Digestion
+abcg5,Digestion
+adra2da,Digestion
+afp4,Digestion
+apoa1a,Digestion
+apoea,Digestion
+asah2,Digestion
+cubn,Digestion
+enpp7.2,Digestion
+fabp2,Digestion
+mlnl,Digestion
+pla2g12b,Digestion
+prelid3b,Digestion
+rdh8a,Digestion
+slc27a2a,Digestion
+soat1,Digestion
+sult1st2,Digestion
+ccne2,Cell Cycle
+cdca8,Cell Cycle
+cdk1,Cell Cycle
+tp53,Cell Cycle
+anln,Cell Cycle
+aspm,Cell Cycle
+bub1,Cell Cycle
+ccna2,Cell Cycle
+ccnf,Cell Cycle
+cdca5,Cell Cycle
+cenpf,Cell Cycle
+eme1,Cell Cycle
+kif11,Cell Cycle
+mnd1,Cell Cycle
+numa1,Cell Cycle
+prc1a,Cell Cycle
+psmc3ip,Cell Cycle
+rad51c,Cell Cycle
+slx4,Cell Cycle
+ttk,Cell Cycle
+ca15b,Cell Cycle
+cdc42l2,Cell Cycle
+erbb3b,Cell Cycle
+foxc1b,Cell Cycle
+meox1,Cell Cycle
+mmp17b,Cell Cycle
+pdgfbb,Cell Cycle
+prnpb,Cell Cycle
+rab11fip4b,Cell Cycle
+sema3c,Cell Cycle
+cxcl11.8,Immune
+il17a/f3,Immune
+il22,Immune
+ccl35.2,Immune
+ccr6a,Immune
+cts12,Immune
+duox,Immune
+epx,Immune
+gramd4b,Immune
+il21,Immune
+map3k5,Immune
+mpeg1.1,Immune
+nr3c1,Immune
+ptpn6,Immune
+stat3,Immune
+tlr8b,Immune
+trpm4b.1,Immune
+xcr1a.1,Immune
+il1b,Immune
+tnfa,Immune
+mpx,Immune
+cybb,Immune
+c3a.1,Immune
+c9,Immune
+mmp9,Immune
+agtrap,Immune
+ar,Immune
+ccl39.2,Immune
+cxcr3.1,Immune
+ifit10,Immune
+mxb,Immune
+nptna,Immune
+phip,Immune
+rxfp1,Immune
+slc2a12,Immune
