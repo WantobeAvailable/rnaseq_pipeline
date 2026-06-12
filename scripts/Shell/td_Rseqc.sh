@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-source configuration.txt
+source config/configuration.txt
 
 
 while IFS=$'\t' read -r sample _; do
@@ -26,7 +26,7 @@ done < "$SAMPLES"
 
 echo "[run] plot_all_geneBody.R ..."
 cd "$RSEQC_DIR"
-Rscript ../scripts/plot_all_geneBody.R \
+Rscript ../scripts/R/plot_all_geneBody.R \
   --meta ../"$META" \
 > ../"$LOG_DIR"/plot_geneBody.log 2>&1
 cd ..

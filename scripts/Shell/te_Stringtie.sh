@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-source configuration.txt
+source config/configuration.txt
 
 while IFS=$'\t' read -r sample _; do
   [[ "$sample" == "sample" ]] && continue
@@ -30,12 +30,11 @@ done < "$SAMPLES"
 
 echo "[run] merge_FPKM.r ..."                                    
 cd "$FPKM_DIR"
-Rscript ../scripts/merge_FPKM.r \
+Rscript ../scripts/R/merge_FPKM.r \
   --o merged_FPKM.csv \
   > ../"$LOG_DIR"/merge_FPKM.log 2>&1
 cp merged_FPKM.csv ../"$COUNT_DIR"
 cd ..
 echo "[done] merge_FPKM.r finished"
-
 
 

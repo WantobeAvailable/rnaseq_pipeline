@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 if [[ "${DO_COMBAT}" == "1" ]]; then
   PCA_IN="${FPKM_DIR}/fpkm.combat.csv"
@@ -9,7 +9,7 @@ else
 fi
 
 echo "[run] drawing PCA with FPKM..."
-Rscript scripts/PCA_analysis.R \
+Rscript scripts/R/PCA_analysis.R \
   --meta "${META}" \
   --fpkm "${PCA_IN}" \
   --top_n "${PCA_TOP_N}" \

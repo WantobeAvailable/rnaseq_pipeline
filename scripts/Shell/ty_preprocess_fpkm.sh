@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 echo "[run] preparing FPKM matrix..."
-Rscript scripts/preprocess_fpkm.R \
+Rscript scripts/R/preprocess_fpkm.R \
   --meta "$META" \
   --fpkm "$FPKM_DIR"/merged_FPKM_fixed.csv \
   --out_numeric "$FPKM_DIR"/fpkm.preprocessed.numeric.csv \

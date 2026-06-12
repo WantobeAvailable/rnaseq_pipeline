@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 sample_lst="sample_lst.txt"
 gene_out="${COUNT_DIR}/gene_count_matrix.csv"
@@ -27,7 +27,7 @@ export R_BACKTRACE_ON_ERROR=numbered
 export R_KEEP_PKG_SOURCE=yes
 echo "[run] merging FPKM and counts..."
 cd "$COUNT_DIR"
-Rscript ../scripts/fix_FPKM.R \
+Rscript ../scripts/R/fix_FPKM.R \
   --fpkm merged_FPKM.csv \
   --counts gene_count_matrix.csv \
   --out_fix merged_FPKM_fixed.csv \
@@ -35,7 +35,7 @@ Rscript ../scripts/fix_FPKM.R \
  > ../"$LOG_DIR"/fix_FPKM.log 2>&1
 cp merged_FPKM_fixed.csv ../"$FPKM_DIR"
 cp FPKM_unfixed.csv ../"$FPKM_DIR"
-Rscript ../scripts/merge_FPKM_counts.R \
+Rscript ../scripts/R/merge_FPKM_counts.R \
   --fpkm merged_FPKM_fixed.csv \
   --counts gene_count_matrix.csv \
   --out merged_FPKM_count.csv \

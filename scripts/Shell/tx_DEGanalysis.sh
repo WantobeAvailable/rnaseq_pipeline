@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 # 这个脚本需要根据实际分组情况更改参数
 echo "[run] analyzing DEG with counts..."
@@ -20,7 +20,7 @@ for spec in "${DEG_CONTRASTS[@]}"; do
   fi
 
   echo "[run] DEG contrast: $PREFIX"
-  Rscript ../scripts/DEG_run_one_contrast.R \
+  Rscript ../scripts/R/DEG_run_one_contrast.R \
     --counts gene_count_matrix.csv \
     --meta ../"$META" \
     --filter "$FILTER_EXP" \

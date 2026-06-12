@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-source configuration.txt
+source config/configuration.txt
 
 # KEEP_SAM 由 configuration.txt 统一控制（true/false）
 

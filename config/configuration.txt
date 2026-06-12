@@ -67,7 +67,7 @@ DEG_ROOT="${COUNT_DIR}/DEG"
 PATTERN_UP="\\.DEG_up\\.csv$"
 PATTERN_DOWN="\\.DEG_down\\.csv$"
 # 富集主脚本
-GK_SCRIPT="scripts/GK_withR.R"
+GK_SCRIPT="scripts/R/GK_withR.R"
 # 注释库里物种基因 symbol 列名
 GK_DR_SYMBOL_COL="DR_GENE_SYMBOL"
 # 注释库里映射到 human ENTREZ 的列名
@@ -122,7 +122,7 @@ HEATMAP_N_VAR=200
 HEATMAP_GROUP_ORDER=""
 
 # Mode 3：module 热图（传 module 文件才会执行该模式）
-HEATMAP_MODULE_FILE="gene_module.csv"
+HEATMAP_MODULE_FILE="rawdata/gene_module.csv"
 # module 顺序；留空则按文件中出现顺序
 # 示例：Digestion,Cell Cycle,Immunity
 HEATMAP_MODULE_ORDER=""

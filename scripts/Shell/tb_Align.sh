@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 
 # 循环读取SAMPLES_TSV的每一行,按 TSV（Tab 分隔）来拆列,依次赋值给变量 sample, fq1, fq2

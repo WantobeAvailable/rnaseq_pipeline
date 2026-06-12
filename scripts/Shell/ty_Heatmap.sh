@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 
 echo "[run] drawing Heatmap with FPKM..."
 cmd=(
-  Rscript scripts/heatmap2.R
+  Rscript scripts/R/heatmap2.R
   --meta "$META"
   --fpkm "$FPKM_DIR"/fpkm.preprocessed.numeric.csv
   --out "$FPKM_DIR"/heatmap
@@ -21,7 +21,7 @@ fi
 if [[ -n "${HEATMAP_MODULE_FILE:-}" ]]; then
   cmd+=(--module "$HEATMAP_MODULE_FILE")
 else
-  cmd+=(--module gene_module.csv)
+  cmd+=(--module rawdata/gene_module.csv)
 fi
 if [[ -n "${HEATMAP_MODULE_ORDER:-}" ]]; then
   cmd+=(--module_order "$HEATMAP_MODULE_ORDER")

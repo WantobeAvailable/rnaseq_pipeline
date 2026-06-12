@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 
 if [[ ! -d "$DEG_ROOT" ]]; then

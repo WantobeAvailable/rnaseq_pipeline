@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 echo "[run] drawing Volcano with FPKM..."
 
@@ -24,7 +24,7 @@ for deg_fp in "${DEG_ALL_FILES[@]}"; do
   plot_title="${prefix_name} ${VOLCANO_TITLE_SUFFIX}"
 
   echo "[run] Volcano: $prefix_name"
-  Rscript scripts/Volcano_analysis.R \
+  Rscript scripts/R/Volcano_analysis.R \
     --deg "$deg_fp" \
     --prefix "$out_prefix" \
     --lfc "$VOLCANO_LFC" \

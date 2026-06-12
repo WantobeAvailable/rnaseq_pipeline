@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source configuration.txt
+source config/configuration.txt
 
 # 取出HISAT2_INDEX_PREFIX的“目录部分”并创建目录
 mkdir -p "$(dirname "$HISAT2_INDEX_PREFIX")" 
