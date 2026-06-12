@@ -1,0 +1,139 @@
+THREADS=8
+KEEP_SAM=true
+
+
+# ==============================
+# 1) 输入数据与样本信息
+# ==============================
+# 原始 FASTQ 所在目录（示例：rawdata/${srr}_1.fastq.gz）
+RAW_DIR="rawdata"
+# 样本列表（两列/制表符；脚本会跳过表头）
+SAMPLES=${RAW_DIR}/samples.tsv
+# 元数据（会被 DEG / PCA / 热图等脚本读取）
+META=${RAW_DIR}/metadata.csv
+
+
+# ==============================
+# 2) 参考基因组与注释
+# ==============================
+# 参考基因组资源目录
+REF_DIR="/RAID6_48T/jxy/transcriptomics/genome_updated" 
+
+REF_GENOME="${REF_DIR}/GCF_000002035.6_GRCz11_genomic_v1.fa"
+REF_GTF="${REF_DIR}/GCF_000002035.6_GRCz11_genomic_v1.gff"
+HISAT2_INDEX_PREFIX="${REF_DIR}/index/hisat2_GRCz11"
+
+# RSeQC geneBody_coverage.py 使用的 BED
+RSEQC_BED="${REF_DIR}/GRCz11.bed"
+
+# StringTie 注释文件（通常与 REF_GTF 一致）
+STRINGTIE_GTF="${REF_GTF}"
+
+# prepDE 脚本路径
+PREPDE="prepDE.py3"
+
+# ==============================
+# 3) 输出目录
+# ==============================
+BAM_DIR="bam"
+LOG_DIR="log"
+RSEQC_DIR="geneBody_QC"
+ST_DIR="stringtie"
+COUNT_DIR="counts"
+FPKM_DIR="fpkm_out"
+
+# ==============================
+# 4) 批次矫正 & PCA
+# ==============================
+# 是否执行 ComBat：1=执行；0=跳过
+DO_COMBAT=1
+# correct_batch.R 的批次列名（来自 metadata）
+BATCH_CORRECT_BATCH_COL="Batch"
+# correct_batch.R 的设计列名（来自 metadata）
+BATCH_CORRECT_DESIGN="Group"
+# PCA_analysis.R 的 --top_n（按方差选前 N 个基因）
+PCA_TOP_N=5000
+
+# ==============================
+# 5) GO/KEGG 富集（tx_GKenrichment.sh）
+# ==============================
+# 物种名（传给 GK_withR.R）
+SPECIES="zebrafish"
+# 同源注释映射表（xlsx）
+ANNOTATION_DB="rawdata/DR_HS_Gene_Annotation_zh3.xlsx"
+# DEG 根目录（脚本会在此目录下匹配 up/down 文件）
+DEG_ROOT="${COUNT_DIR}/DEG"
+# 上下调 DEG 文件匹配正则（R 正则）
+PATTERN_UP="\\.DEG_up\\.csv$"
+PATTERN_DOWN="\\.DEG_down\\.csv$"
+# 富集主脚本
+GK_SCRIPT="scripts/GK_withR.R"
+# 注释库里物种基因 symbol 列名
+GK_DR_SYMBOL_COL="DR_GENE_SYMBOL"
+# 注释库里映射到 human ENTREZ 的列名
+GK_HS_ENTREZ_COL="HS_ENTREZID"
+
+# ==============================
+# 6) DEG 对比配置（tx_DEGanalysis.sh）
+# ==============================
+# 每个元素格式：
+# filter|design|treat|control|outdir|prefix
+# - filter: 作用于 metadata 的筛选表达式
+# - design: 设计因子列（metadata 列名）
+# - treat/control: 对比组名称
+# - outdir: 相对 COUNT_DIR 的输出子目录（建议以 DEG/ 开头）
+# - prefix: 本次对比的统一前缀（影响 DEG 文件名与日志名）
+# DEG 筛选阈值（作用于 DEG_run_one_contrast.R）
+# 可选：pvalue / padj（推荐严格控制假阳性时用 padj）
+DEG_P_COL="pvalue"
+DEG_P=0.05
+DEG_LFC=1.5
+DEG_CONTRASTS=(
+	"Time==\"3M\" & Group %in% c(\"WT\",\"MU\")|Group|MU|WT|DEG/3M_MU_vs_WT|3M_MU_vs_WT"
+	"Time==\"6M\" & Group %in% c(\"WT\",\"MU\")|Group|MU|WT|DEG/6M_MU_vs_WT|6M_MU_vs_WT"
+	"Time==\"6M\" & Group %in% c(\"WT\",\"SMU\")|Group|SMU|WT|DEG/6M_SMU_vs_WT|6M_SMU_vs_WT"
+)
+
+# ==============================
+# 7) Volcano 批量绘图（tx_Volcano.sh）
+# ==============================
+# 仅影响绘图阈值与标题，不影响 DEG 文件本身
+VOLCANO_LFC=1.5
+VOLCANO_P=0.05
+# 可选：pvalue / padj / qvalue（需列存在于 DEG_all 文件）
+VOLCANO_P_COL="padj"
+# 标题后缀：实际标题=“对比前缀 + 该后缀”
+VOLCANO_TITLE_SUFFIX="Volcano Plot"
+
+# ==============================
+# 8) GO/KEGG 结果绘图（tx_GKplot.sh）
+# ==============================
+# 可选：pvalue / padjust / qvalue
+GKPLOT_SIGNIFICANCE="padjust"
+
+# ==============================
+# 9) Heatmap2（ty_Heatmap.sh -> scripts/heatmap2.R）
+# ==============================
+# Mode 1：按方差筛选 top N 基因
+HEATMAP_N_VAR=200
+
+# 样本分组顺序（metadata 的 Treat 列）；留空则按默认顺序
+# 示例：WT_3M,WT_6M,MU_3M,MU_6M,SMU_6M
+HEATMAP_GROUP_ORDER=""
+
+# Mode 3：module 热图（传 module 文件才会执行该模式）
+HEATMAP_MODULE_FILE="gene_module.csv"
+# module 顺序；留空则按文件中出现顺序
+# 示例：Digestion,Cell Cycle,Immunity
+HEATMAP_MODULE_ORDER=""
+
+# Mode 2：DEG 热图（必须同时提供 up/down）
+# 建议填写某一对比的 .DEG_up.csv / .DEG_down.csv 绝对或相对路径
+HEATMAP_DEG_UP=""
+HEATMAP_DEG_DOWN=""
+# 仅用于 Mode 2：手动指定要画图的 Treat 组（逗号分隔）
+# 示例：WT_3M,MU_3M
+# 留空则使用全部样本
+HEATMAP_DEG_GROUPS=""
+# 每个方向取前 N 个（按 |log2FC|）
+HEATMAP_N_DEG=100
